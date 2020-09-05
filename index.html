@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>Budget App</title>
+	<meta content="" name="descriptison">
+  	<meta content="" name="keywords">
+    <link rel="stylesheet" type="text/css" href="design.css">
+
+    <!--icons link-->
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+</head>
+<body>
+    <nav style="color: white;">
+        <a href="index.html"> <h3 style="color: var(--purple--);">BUDGETIFY</h3> </a>
+        <div>
+          <!--  <a href="sign-in.html" style="margin-right: 15px;"><button class="register">Sign Up</button>  </a>
+            <a href="sign-up.html"><button class="register">Register</button> </a> -->
+        </div>
+        <div style="display: flex;align-items: center;">
+            <div class="canvas" style="margin-right: 20px;">
+                <img src="img_avatar1.png">
+                <span> </span>
+
+            </div>
+            <a href="sign-up.html"><button class="register">Log Out</button> </a>
+        
+        </div>  
+    </nav>
+    <section class="preview-plane">
+        <div>
+            <button class="register hover" id="empty">Empty Wallet</button>
+           <h5></h5>
+           <span>+ 0:00</span>
+           <div class="income-display">
+               <div style="justify-content: space-between;display: flex;color: white;font-family:'Open Sans Regular';align-items: center;">
+                    <h4>INCOME</h4> 
+                    <h4 class="value-item" style="color: #1aff1a;"></h4>
+                </div> 
+           </div>
+           <div class="expenses-display">
+                <div style="justify-content: space-between;display: flex;color: white;font-family:'Open Sans Regular';align-items: center;">
+                    <h4>EXPENSES</h4> 
+                    <h4 class="value-item" style="color: #ff4d4d;"></h4>
+                </div> 
+           </div>
+        </div>
+    </section>
+    <section class="input-panels">
+        <div id="sign-container">
+            <select id="sign">
+                <option value="inc">+</option>
+                <option value="exp">-</option>
+            </select>
+            <input type="text" name="" class="text-box" id="descriptsion" placeholder="Add a Description" style="transition: all 0.5s ease-in;">
+            <input type="text" name="value" class="text-box" id="value" placeholder="Value.." style="transition: all 0.5s ease-in;">
+            <i class="icon-check2" ></i>
+
+
+        </div>
+    </section>
+    <div class="container">
+        <div>
+            
+        </div>
+    </div>
+    <section class="table-output">
+        <table class="income-part">
+            <th colspan="3">INCOME</th>
+        </table>
+        <table class="expense-part">
+            <th colspan="3">EXPENSES</th>
+            
+        </table>
+    </section>
+<script type="text/javascript">
+
+    
+</script>
+</body>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+    });
+    var BudgetController = (function(){
+        var income = [];
+        var expense = [];
+            return {
+                pushval: function(){
+                    income.push($(".counteradd").eq($(".counteradd").length - 1).html());
+                },
+                opushval: function(){
+                    expense.push($(".countermin").eq($(".countermin").length - 1).html());
+                },
+                loopincome : function(){
+                    var incomeScore = 0;
+                    for (i = 0; i < income.length; i++) {
+                      incomeScore += parseInt(income[i])
+                    }
+                    return incomeScore;
+                },
+                expincome : function(){
+                    var expScore = 0;
+                    for (i = 0; i < expense.length; i++) {
+                      expScore += parseInt(expense[i])
+                    }
+                    return expScore;
+                },
+                emptytank : function(){
+                    income = [];
+                    expense = [];
+                    return income;
+                    return expense;
+                }
+            }
+        
+    })();
+    $("#empty").click(function(){
+        BudgetController.emptytank();
+         $(".preview-plane span").html("+ 0:00");
+         $(".income-part").html("<th colspan='3'>INCOME</th>");
+         $(".expense-part").html("<th colspan='3'>EXPENSES</th>");
+         $(".income-display .value-item").html(" ");
+         $(".expenses-display .value-item").html(" ");
+    })
+    var UiController = (function(){
+        return {
+            getInput: function(){
+                return {
+                    signValue : $("#sign").val(),
+                    desValue : $("#descriptsion").val(),
+                    valueValue : $("#value").val()
+                }
+            }
+        }
+    })();
+    // OverController
+    var overAllController = (function(budgetCtrl , UICtrl){
+
+        var clearField = function(){
+            $("#descriptsion").val(" ");
+            $("#value").val(" ");
+        }
+        var addingPresentIncome = function(){
+            if( UICtrl.getInput().signValue === "inc" ){
+                $(".income-display .value-item").html("+" + $(".counteradd").eq($(".counteradd").length - 1).html());
+                $(".expenses-display .value-item").html(" ");
+            }
+
+        }
+        var addingPresentExpense = function(){
+            if( UICtrl.getInput().signValue === "exp" ){
+                $(".expenses-display .value-item").html("-" + $(".countermin").eq($(".countermin").length - 1).html());
+                $(".income-display .value-item").html(" ");
+            }
+            
+        }
+        var doneIt = function(){
+            if( UICtrl.getInput().signValue === "inc"){
+                $(".income-part").append("<tr> <td>"+ UICtrl.getInput().desValue +" </td> <td class='counteradd'> "+UICtrl.getInput().valueValue+" </td>  </tr>");
+                budgetCtrl.pushval();
+                addingPresentIncome();
+                $(".preview-plane span").html(budgetCtrl.loopincome() - budgetCtrl.expincome());
+            }
+            else if( UICtrl.getInput().signValue === "exp"){
+                $(".expense-part").append("<tr> <td>"+ UICtrl.getInput().desValue +" </td> <td class='countermin'> "+UICtrl.getInput().valueValue+" </td>  </tr>");
+                budgetCtrl.opushval();
+                addingPresentExpense();
+                $(".preview-plane span").html(budgetCtrl.loopincome() - budgetCtrl.expincome());
+            }
+        }
+        $(".icon-check2").on("click" , function(){
+            if($('#value').val() !== " "){
+                doneIt();
+            }
+            clearField();
+        });
+        $("body").on("keypress" , function(event){
+            if(event.keyCode === 13 || event.which === 13)  {
+                doneIt();
+                clearField();
+            }         
+        });
+
+    })(BudgetController , UiController);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*var BudgetController = (function(){
+
+    })();
+
+    var UiController = (function(){
+
+        return {
+            getInput: function(){
+                return {
+                    signValue : document.querySelector("#sign").value,
+                    desValue : document.querySelector("#descriptsion").value,
+                    valueValue : document.querySelector("#value").value
+                }
+            }
+        }
+    })();
+    // OverController
+    var overAllController = (function(budgetCtrl , UICtrl){
+        //Collect Input From  The Queries
+        //Add The Item to Budget Controller 
+        // Add the item to the Ui
+        // Calculating the budget 
+        //Display the Budget on the UI
+        var doneIt = function(){
+            if( UICtrl.getInput().signValue === "inc" ){
+                var nodal= document.createElement("tr").appendChild(document.createElement("td"));
+                document.querySelector(".income-part").appendChild(nodal);
+            }
+            else if( UICtrl.getInput().signValue === "exp" ){
+                console.log("It Works");
+            }
+        }
+        document.querySelector(".icon-check2").addEventListener("click" , function(){
+            doneIt();
+        });
+        document.addEventListener("keypress" , function(event){
+            if(event.keyCode === 13 || event.which === 13)  {
+                doneIt();
+            }         
+        });
+    })(BudgetController , UiController);
+     
+   $('#sign').on("change" , function(){
+        var sign =  $('#sign').val();
+        //console.log( eval("5 " + sign +" 5") );
+        if (sign === "+"){
+            $(".text-box").on("mouseover" , function(){
+                $(this).css("border" , "1.5px solid green");
+            });
+            $(".text-box").on("mouseout" , function(){
+                $(this).css("border" , "none");
+            });
+        }
+        if (sign === "-"){
+            $(".text-box").on("mouseover" , function(){
+                $(this).css("border" , "1.5px solid red");
+            });
+            $(".text-box").on("mouseout" , function(){
+                $(this).css("border" , "none");
+            });
+        }
+    });
+   
+    $(".icon-check2").on("click" , function(){
+        
+        var sign = $('#sign').val();
+        var description = $("#descriptsion").val();
+        var value = $("#value").val();
+        if (sign === "+" && $("#descriptsion").val() !== ""){
+           $(".income-part").append("<tr> <td>"+ description+" </td> <td class='counter'> "+value+" </td>  </tr>");
+           $(".income-display .value-item").html('+ '+value);
+           $(".expenses-display .value-item").html(' ');
+        }
+        else if (sign === "-" && $('#value').val() !== ""){
+           $(".expense-part").append("<tr> <td>"+ description+" </td> <td class='counter'> "+value+" </td> <td> ");
+           $(".expenses-display .value-item").html(' - '+value);
+           $(".income-display .value-item").html(" ");
+        }
+        
+        var indexCount = 0;
+        var totalLength = $(".counter").length;
+        var i;
+        
+        for (var i = 0; i < totalLength; i++) {
+            if (sign === "+") {
+                indexCount += parseInt($(".counter").eq(i).html());
+            }
+            else if (sign === "-") {
+                chnageScore -= parseInt($(".counter").eq(i).html());
+            }
+        }
+        var chnageScore = indexCount;
+
+
+        $(".preview-plane span").html(indexCount);
+        console.log(indexCount);
+    });
+    */
+</script>
+
+</html>
