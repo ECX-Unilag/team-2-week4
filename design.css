@@ -134,6 +134,12 @@ header.header{
     left: 0;
     right: 0;
 }
+.div li{
+	font-weight: bold;
+	font-family: "Open Sans Regular";
+	font-size: 80%;
+}
+
 .menu-bar-open, .menu-bar-close {
     z-index: 999999;
 }
