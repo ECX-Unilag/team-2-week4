@@ -20,14 +20,43 @@
         </div>
         <div style="display: flex;align-items: center;">
             <div class="canvas" style="margin-right: 20px;">
-                <img src="img_avatar1.png">
-                <span> </span>
+                <img src="img_avatar1.png" class="img">
+                <span style="background-color: #00ff00;"> </span>
 
             </div>
             <a href="sign-up.html"><button class="register">Log Out</button> </a>
         
         </div>  
     </nav>
+    <header class="header">
+        <div>
+            <span>Get Started</span>
+        </div>
+    </header>
+
+    <!-- Getting Started Details-->
+    <div id="id01" class="modal" style="display:none">
+          <form class="modal-content animate" id="popupformintake" action='conatct -form.php' method="POST">
+            <h1 style="text-align: center;font-family: 'Open Sans Regular';color: white;">GETTING STARTED</h1> <br>
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <div class="modal-content-CONAT">
+                <div class="div">
+                    <span style="text-align: center;font-family: 'Open Sans Regular';justify-content: center;display: flex;font-weight: bolder;">ABOUT US</span>
+                    <p>Budgetify is an app that helps create a plan to spend your money. It does not matter if you live paycheck to paycheck, This App Can help you account for that income, analyze spending habits over a given period of time.</p>
+                    <div>
+                        <ul>
+                            <label>USING BUDGETIFY</label>
+                            <li><img src="select box.png" style="transform: scale(0.7);margin-top: -8px;position: absolute;"> <span style="padding-left: 40px;">Click on the select box + for income - for expenses.</span>  </li> <br>
+                            <li><img src="description.png" style="transform: scale(0.7);margin-top: -8px;position: absolute;margin-left: -25px;"> <span style="padding-left: 134px;">Click on the select box + for income - for expenses.</span>  </li><br>
+                            <li><img src="thirdpics.png" style="transform: scale(0.7);margin-top: -8px;position: absolute;margin-left: -15px;"> <span style="padding-left: 80px;">Click on the select box + for income - for expenses.</span>  </li><br>
+                            <li><img src="fourth.png" style="transform: scale(0.7);margin-top: -8px;margin-left: -25px;justify-content: center;display: grid;"> <span style="padding-left: 134px;">Click on the select box + for income - for expenses.</span>  </li>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
     <section class="preview-plane">
         <div>
             <button class="register hover" id="empty">Empty Wallet</button>
@@ -86,6 +115,13 @@
     $(document).ready(function(){
        
     });
+    $("header div").on("click" , function(e){
+        e.preventDefault();
+        $(".modal").show();
+        $(".modal-content").animate({
+            transform : "scale(1.0)"
+        }, 2000);
+    });
     var BudgetController = (function(){
         var income = [];
         var expense = [];
@@ -138,6 +174,7 @@
             }
         }
     })();
+
     // OverController
     var overAllController = (function(budgetCtrl , UICtrl){
 
