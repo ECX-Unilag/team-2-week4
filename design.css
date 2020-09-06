@@ -139,11 +139,13 @@ header.header{
 }
 .modal-content-CONAT{
     width:80%;
-    display:block;
-    margin:auto;
+    overflow: scroll;
+    display: block;
+    margin: auto;
     background-color: white;
     padding: 20px;
     color: black;
+    height: calc(97vh - 101px) !important;
 
 }
 .modal-content-CONAT p{
@@ -152,18 +154,31 @@ header.header{
 	font-size: 90%;
 }
 @media all and (max-width: 600px){
+	.modal-content-CONAT{
+    width:95%;
+    
+
+}
 	.modal-content-CONAT p{
 	margin-left: 1%;margin-right: 1%;
 }
+}
+@media all and (max-width: 400px){
+	.me{
+		width: 100%;
+		height: auto;
+	}
 }
 label{
 	display: grid;
 	justify-content: center;
 	font-family: "Open Sans Regular";
+	font-weight: bolder;
+	padding-bottom: 10px;
+	text-decoration: underline;
 }
 .modal-content-CONAT .div{
     color:black;margin-bottom:15px;
-    overflow-y: scroll;
     margin-top: 20px;
     }
 .close{
